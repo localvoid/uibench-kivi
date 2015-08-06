@@ -1,4 +1,1 @@
-# DBMonster benchmark
-
-[Link](http://localvoid.github.io/kivi-dbmonster/)
-
+# UI Benchmark: kivi

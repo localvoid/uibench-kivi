@@ -6,6 +6,15 @@ app.ui.table_cell.d = new vdom.CDescriptor();
 app.ui.table_cell.d.tag = 'td';
 
 /** @param {!vdom.Component<string, null>} c */
+app.ui.table_cell.d.init = function(c) {
+  var self = this;
+  c.element.addEventListener('click', function(e) {
+    console.log('Click', self.data);
+    e.stopPropagation();
+  })
+};
+
+/** @param {!vdom.Component<string, null>} c */
 app.ui.table_cell.d.update = function(c) {
   var root = vdom.createRoot();
   root.type = 'TableCell';

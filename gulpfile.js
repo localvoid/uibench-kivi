@@ -18,7 +18,7 @@ gulp.task('scripts', function() {
       continueWithWarnings: true,
       compilerFlags: {
         closure_entry_point: 'app.main',
-        compilation_level: 'SIMPLE_OPTIMIZATIONS',
+        compilation_level: 'ADVANCED_OPTIMIZATIONS',
         language_in: 'ECMASCRIPT6_STRICT',
         language_out: 'ECMASCRIPT5_STRICT',
         use_types_for_optimization: true,

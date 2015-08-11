@@ -8,10 +8,10 @@ app.ui.table_cell.d.tag = 'td';
 /** @param {!vdom.Component<string, null>} c */
 app.ui.table_cell.d.init = function(c) {
   var self = this;
-  c.element.addEventListener('click', function(e) {
+  c.element.onClick = function(e) {
     console.log('Click', self.data);
     e.stopPropagation();
-  })
+  };
 };
 
 /** @param {!vdom.Component<string, null>} c */

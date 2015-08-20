@@ -17,16 +17,12 @@ app.ui.table_row.d.update = function(c) {
     children.push(vdom.createComponent(app.ui.table_cell.d, props[i]));
   }
 
-  var root = vdom.createRoot();
-  root.type = 'TableRow';
-  root.attrs = {
-    'data-id': data.id
-  };
-  if (data.active) {
-    root.classes = app.ui.table_row.ACTIVE_CLASSES;
-  }
-  root.children = children;
-  c.updateRoot(root);
+  c.updateRoot(
+      vdom.createRoot()
+          .type('TableRow')
+          .attrs({'data-id': data.id})
+          .classes(data.active ? app.ui.table_row.ACTIVE_CLASSES : null)
+          .children(children));
 };
 
 app.ui.table_row.ACTIVE_CLASSES = ['active'];

@@ -13,12 +13,8 @@ app.ui.anim.d.update = function(c) {
   var children = [];
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
-    children.push(vdom.createIComponent(item.id, app.ui.anim_box.d, item));
+    children.push(vdom.createComponent(app.ui.anim_box.d, item).key(item.id));
   }
 
-  var root = vdom.createRoot();
-  root.type = 'Anim';
-  root.children = children;
-
-  c.updateRoot(root);
+  c.updateRoot(vdom.createRoot().type('Anim').children(children));
 };

@@ -8,9 +8,7 @@ app.ui.tree.d = new vdom.CDescriptor();
 
 /** @param {!vdom.Component<!uibench.state.TreeState, null>} c */
 app.ui.tree.d.update = function(c) {
-  var data = c.data;
-  var root = vdom.createRoot();
-  root.type = 'Tree';
-  root.children = [vdom.createComponent(app.ui.tree_node.d, data.root)];
-  c.updateRoot(root);
+  c.updateRoot(vdom.createRoot().type('Tree').children([
+    vdom.createComponent(app.ui.tree_node.d, c.data.root)
+  ]));
 };

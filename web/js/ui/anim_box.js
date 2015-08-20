@@ -9,14 +9,8 @@ app.ui.anim_box.d = new vdom.CDescriptor();
 app.ui.anim_box.d.update = function(c) {
   var data = c.data;
   var time = data.time;
-  var root = vdom.createRoot();
-  root.type = 'AnimBox';
-  root.attrs = {
-    'data-id': data.id
-  };
-  root.style = {
+  c.updateRoot(vdom.createRoot().type('AnimBox').attrs({'data-id': data.id}).style({
     'border-radius': (time % 10).toString() + 'px',
     'background': 'rgba(0,0,0,' + (0.5 + ((time % 10) / 10)).toString() + ')'
-  };
-  c.updateRoot(root);
+  }));
 };

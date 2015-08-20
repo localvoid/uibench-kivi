@@ -10,15 +10,12 @@ app.ui.tree_node.d.tag = 'ul';
 /** @param {!vdom.Component<!uibench.state.TreeNodeState>} c */
 app.ui.tree_node.d.update = function(c) {
   var data = c.data;
-  var children = [];
 
+  var children = [];
   for (var i = 0; i < data.children.length; i++) {
     var n = data.children[i];
-    children.push(vdom.createIComponent(n.id, n.container ? app.ui.tree_node.d : app.ui.tree_leaf.d, n));
+    children.push(vdom.createComponent(n.container ? app.ui.tree_node.d : app.ui.tree_leaf.d, n).key(n.id));
   }
 
-  var root = vdom.createRoot();
-  root.type = 'TreeNode';
-  root.children = children;
-  c.updateRoot(root);
+  c.updateRoot(vdom.createRoot().type('TreeNode').children(children));
 };

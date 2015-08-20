@@ -8,10 +8,5 @@ app.ui.tree_leaf.d.tag = 'li';
 
 /** @param {!vdom.Component<!uibench.state.TreeNodeState, null>} c */
 app.ui.tree_leaf.d.update = function(c) {
-  var data = c.data;
-
-  var root = vdom.createRoot();
-  root.type = 'TreeLeaf';
-  root.children = [vdom.createText(data.id.toString())];
-  c.updateRoot(root);
+  c.updateRoot(vdom.createRoot().type('TreeLeaf').children('' + c.data.id));
 };

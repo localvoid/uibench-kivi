@@ -11,19 +11,16 @@ app.ui.main.d = new vdom.CDescriptor();
 /** @param {!vdom.Component<!uibench.state.AppState, null>} c */
 app.ui.main.d.update = function(c) {
   var data = c.data;
-
-  var root = vdom.createRoot();
-  root.type = 'Main';
-
   var location = data && data.location;
 
+  var children = null;
   if (location === 'table') {
-    root.children = [vdom.createComponent(app.ui.table.d, data.table)];
+    children = [vdom.createComponent(app.ui.table.d, data.table)];
   } else if (location === 'anim') {
-    root.children = [vdom.createComponent(app.ui.anim.d, data.anim)];
+    children = [vdom.createComponent(app.ui.anim.d, data.anim)];
   } else if (location === 'tree') {
-    root.children = [vdom.createComponent(app.ui.tree.d, data.tree)];
+    children = [vdom.createComponent(app.ui.tree.d, data.tree)];
   }
 
-  c.updateRoot(root);
+  c.updateRoot(vdom.createRoot().type('Main').children(children));
 };

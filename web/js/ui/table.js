@@ -15,15 +15,10 @@ app.ui.table.d.update = function(c) {
   var children = [];
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
-    children.push(vdom.createIComponent(item.id, app.ui.table_row.d, item));
+    children.push(vdom.createComponent(app.ui.table_row.d, item).key(item.id));
   }
 
-  var tbody = vdom.createElement('tbody');
-  tbody.children = children;
-
-  var root = vdom.createRoot();
-  root.type = 'Table';
-  root.children = [tbody];
-
-  c.updateRoot(root);
+  c.updateRoot(vdom.createRoot().type('Table').children([
+    vdom.createElement('tbody').children(children)
+  ]));
 };

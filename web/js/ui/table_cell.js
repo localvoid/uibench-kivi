@@ -1,11 +1,11 @@
 goog.provide('app.ui.table_cell');
-goog.require('vdom');
+goog.require('kivi');
 
-/** @type {!vdom.CDescriptor<string, null>} */
-app.ui.table_cell.d = new vdom.CDescriptor();
+/** @type {!kivi.CDescriptor<string, null>} */
+app.ui.table_cell.d = new kivi.CDescriptor();
 app.ui.table_cell.d.tag = 'td';
 
-/** @param {!vdom.Component<string, null>} c */
+/** @param {!kivi.Component<string, null>} c */
 app.ui.table_cell.d.init = function(c) {
   c.element.onclick = function(e) {
     console.log('Click', c.data);
@@ -13,7 +13,7 @@ app.ui.table_cell.d.init = function(c) {
   };
 };
 
-/** @param {!vdom.Component<string, null>} c */
+/** @param {!kivi.Component<string, null>} c */
 app.ui.table_cell.d.update = function(c) {
-  c.updateRoot(vdom.createRoot().type('TableCell').children(c.data));
+  c.updateRoot(kivi.createRoot().type('TableCell').children(c.data));
 };

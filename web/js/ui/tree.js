@@ -8,7 +8,7 @@ app.ui.tree.d = new kivi.CDescriptor();
 
 /** @param {!kivi.Component<!uibench.state.TreeState, null>} c */
 app.ui.tree.d.update = function(c) {
-  c.updateRoot(kivi.createRoot().type('Tree').children([
+  c.syncVRoot(kivi.createRoot().type('Tree').children([
     kivi.createComponent(app.ui.tree_node.d, c.data.root)
   ]));
 };

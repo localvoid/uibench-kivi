@@ -17,7 +17,7 @@ app.ui.table_row.d.update = function(c) {
     children.push(kivi.createComponent(app.ui.table_cell.d, props[i]));
   }
 
-  c.updateRoot(
+  c.syncVRoot(
       kivi.createRoot()
           .type('TableRow')
           .attrs({'data-id': data.id})

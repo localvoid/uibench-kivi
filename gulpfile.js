@@ -17,6 +17,9 @@ gulp.task('scripts', function() {
       compilerPath: 'node_modules/closurecompiler/compiler/compiler.jar',
       continueWithWarnings: true,
       compilerFlags: {
+        define: [
+          'kivi.DEBUG=false'
+        ],
         closure_entry_point: 'app.main',
         compilation_level: 'ADVANCED_OPTIMIZATIONS',
         language_in: 'ECMASCRIPT6_STRICT',

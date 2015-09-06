@@ -7,7 +7,7 @@ goog.require('app.ui.main');
 
 kivi.init(new kivi.Scheduler());
 
-uibench.init('kivi', '0.4.0');
+uibench.init('kivi', '0.5.0');
 
 document.addEventListener('DOMContentLoaded', function(e) {
   /** @type {kivi.Component<!uibench.state.AppState,null>} */

@@ -22,5 +22,5 @@ app.ui.main.d.update = function(c) {
     children = [kivi.createComponent(app.ui.tree.d, data.tree)];
   }
 
-  c.updateRoot(kivi.createRoot().type('Main').children(children));
+  c.syncVRoot(kivi.createRoot().type('Main').children(children));
 };

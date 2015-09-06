@@ -18,7 +18,7 @@ app.ui.table.d.update = function(c) {
     children.push(kivi.createComponent(app.ui.table_row.d, item).key(item.id));
   }
 
-  c.updateRoot(kivi.createRoot().type('Table').children([
-    kivi.createElement('tbody').children(children)
+  c.syncVRoot(kivi.createRoot().type('Table').children([
+    kivi.createElement('tbody').trackByKey().children(children)
   ]));
 };

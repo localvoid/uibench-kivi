@@ -16,5 +16,5 @@ app.ui.anim.d.update = function(c) {
     children.push(kivi.createComponent(app.ui.anim_box.d, item).key(item.id));
   }
 
-  c.updateRoot(kivi.createRoot().type('Anim').children(children));
+  c.syncVRoot(kivi.createRoot().type('Anim').trackByKey().children(children));
 };

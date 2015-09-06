@@ -17,5 +17,5 @@ app.ui.tree_node.d.update = function(c) {
     children.push(kivi.createComponent(n.container ? app.ui.tree_node.d : app.ui.tree_leaf.d, n).key(n.id));
   }
 
-  c.updateRoot(kivi.createRoot().type('TreeNode').children(children));
+  c.syncVRoot(kivi.createRoot().type('TreeNode').trackByKey().children(children));
 };

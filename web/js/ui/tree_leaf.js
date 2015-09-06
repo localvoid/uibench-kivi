@@ -8,5 +8,5 @@ app.ui.tree_leaf.d.tag = 'li';
 
 /** @param {!kivi.Component<!uibench.state.TreeNodeState, null>} c */
 app.ui.tree_leaf.d.update = function(c) {
-  c.updateRoot(kivi.createRoot().type('TreeLeaf').children('' + c.data.id));
+  c.syncVRoot(kivi.createRoot().type('TreeLeaf').children('' + c.data.id));
 };

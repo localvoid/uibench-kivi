@@ -4,7 +4,7 @@ goog.require('uibench.state');
 goog.require('kivi');
 
 /** @type {!kivi.CDescriptor<!uibench.state.TreeNodeState>} */
-app.ui.tree_node.d = new kivi.CDescriptor();
+app.ui.tree_node.d = new kivi.CDescriptor('TreeNode');
 app.ui.tree_node.d.tag = 'ul';
 
 /** @param {!kivi.Component<!uibench.state.TreeNodeState>} c */

@@ -3,7 +3,7 @@ goog.require('uibench.state');
 goog.require('kivi');
 
 /** @type {!kivi.CDescriptor<!uibench.state.AnimBoxState, null>} */
-app.ui.anim_box.d = new kivi.CDescriptor();
+app.ui.anim_box.d = new kivi.CDescriptor('AnimBox');
 
 /** @param {!kivi.Component<!uibench.state.AnimBoxState, null>} c */
 app.ui.anim_box.d.update = function(c) {

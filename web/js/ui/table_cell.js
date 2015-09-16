@@ -2,7 +2,7 @@ goog.provide('app.ui.table_cell');
 goog.require('kivi');
 
 /** @type {!kivi.CDescriptor<string, null>} */
-app.ui.table_cell.d = new kivi.CDescriptor();
+app.ui.table_cell.d = new kivi.CDescriptor('TableCell');
 app.ui.table_cell.d.tag = 'td';
 
 /** @param {!kivi.Component<string, null>} c */

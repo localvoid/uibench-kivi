@@ -6,7 +6,7 @@ goog.require('uibench.state');
 goog.require('kivi');
 
 /** @type {!kivi.CDescriptor<!uibench.state.AppState, null>} */
-app.ui.main.d = new kivi.CDescriptor();
+app.ui.main.d = new kivi.CDescriptor('Main');
 
 /** @param {!kivi.Component<!uibench.state.AppState, null>} c */
 app.ui.main.d.update = function(c) {

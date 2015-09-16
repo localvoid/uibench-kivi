@@ -4,7 +4,7 @@ goog.require('uibench.state');
 goog.require('kivi');
 
 /** @type {!kivi.CDescriptor<!uibench.state.TableItemState, null>} */
-app.ui.table_row.d = new kivi.CDescriptor();
+app.ui.table_row.d = new kivi.CDescriptor('TableRow');
 app.ui.table_row.d.tag = 'tr';
 
 /** @param {!kivi.Component<!uibench.state.TableItemState, null>} c */

@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var del = require('del');
 var browserSync = require('browser-sync');
-var closureCompiler = require('gulp-closure-compiler');
+var closureCompiler = require('google-closure-compiler').gulp();
 var ghPages = require('gulp-gh-pages');
 
 var DEST = './build';
@@ -13,24 +13,21 @@ gulp.task('clean', del.bind(null, [DEST]));
 gulp.task('scripts', function() {
   return gulp.src(['web/**/*.js', 'node_modules/kivi/src/**/*.js', 'node_modules/uibench-base/lib/*.js'])
     .pipe(closureCompiler({
-      fileName: 'main.js',
-      compilerPath: 'node_modules/closurecompiler/compiler/compiler.jar',
-      continueWithWarnings: true,
-      compilerFlags: {
-        define: [
-          'kivi.DEBUG=false'
-        ],
-        closure_entry_point: 'app.main',
-        compilation_level: 'ADVANCED_OPTIMIZATIONS',
-        language_in: 'ECMASCRIPT6_STRICT',
-        language_out: 'ECMASCRIPT5_STRICT',
-        use_types_for_optimization: true,
-        only_closure_dependencies: true,
-        output_wrapper: '(function(){%output%}).call();',
-        warning_level: 'VERBOSE',
-        jscomp_warning: 'reportUnknownTypes',
-        summary_detail_level: 3
-      }
+      js_output_file: 'main.js',
+      define: [
+        'kivi.DEBUG=false',
+        //'kivi.ENABLE_COMPONENT_RECYCLING=true'
+      ],
+      closure_entry_point: 'app.main',
+      compilation_level: 'ADVANCED_OPTIMIZATIONS',
+      language_in: 'ECMASCRIPT6_STRICT',
+      language_out: 'ECMASCRIPT5_STRICT',
+      use_types_for_optimization: true,
+      only_closure_dependencies: true,
+      output_wrapper: '(function(){%output%}).call();',
+      warning_level: 'VERBOSE',
+      jscomp_warning: 'reportUnknownTypes',
+      summary_detail_level: 3
     }))
     .pipe(gulp.dest(DEST))
     .pipe(browserSync.reload({stream: true}));

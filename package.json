@@ -22,7 +22,7 @@
     "uibench"
   ],
   "dependencies": {
-    "kivi": "^0.5.0",
+    "kivi": "^0.7.1",
     "uibench-base": "latest"
   },
   "devDependencies": {

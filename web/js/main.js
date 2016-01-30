@@ -5,11 +5,13 @@ goog.require('uibench.run');
 goog.require('uibench.state');
 goog.require('app.ui.main');
 
-uibench.init('kivi', '0.7.0');
+uibench.init('kivi', '0.7.1');
 
 document.addEventListener('DOMContentLoaded', function(e) {
+  var container = document.querySelector('#App');
+
   /** @type {kivi.Component<!uibench.state.AppState,null>} */
-  var main = kivi.injectComponent(app.ui.main.d, null, /** @type {!Element} */(document.body));
+  var main = kivi.injectComponent(app.ui.main.d, null, /** @type {!Element} */(container));
   uibench.run(
       function(state) {
         main.data = state;

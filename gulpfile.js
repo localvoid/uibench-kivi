@@ -1,5 +1,3 @@
-'use strict';
-
 var gulp = require('gulp');
 var del = require('del');
 var browserSync = require('browser-sync');
@@ -18,12 +16,12 @@ gulp.task('scripts', function() {
         'kivi.DEBUG=false',
         //'kivi.ENABLE_COMPONENT_RECYCLING=true'
       ],
+      dependency_mode: 'STRICT',
+      entry_point: 'goog:app.main',
       closure_entry_point: 'app.main',
       compilation_level: 'ADVANCED_OPTIMIZATIONS',
       language_in: 'ECMASCRIPT6_STRICT',
       language_out: 'ECMASCRIPT5_STRICT',
-      use_types_for_optimization: true,
-      only_closure_dependencies: true,
       output_wrapper: '(function(){%output%}).call();',
       warning_level: 'VERBOSE',
       jscomp_warning: 'reportUnknownTypes',

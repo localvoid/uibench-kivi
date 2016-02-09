@@ -10,7 +10,7 @@ goog.scope(function() {
 
   /** @type {!kivi.CDescriptor<!uibench.state.TableState, null>} */
   app.ui.table.d = kivi.CDescriptor.create('Table');
-  app.ui.table.d.tag = kivi.CTag.create('table').classes('Table');
+  app.ui.table.d.tag = kivi.CTag.create('table').enableCloning().classes('Table');
 
   /** @param {!kivi.Component<!uibench.state.TableState, null>} c */
   app.ui.table.d.update = function(c) {

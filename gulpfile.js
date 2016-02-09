@@ -18,7 +18,6 @@ gulp.task('scripts', function() {
       ],
       dependency_mode: 'STRICT',
       entry_point: 'goog:app.main',
-      closure_entry_point: 'app.main',
       compilation_level: 'ADVANCED_OPTIMIZATIONS',
       language_in: 'ECMASCRIPT6_STRICT',
       language_out: 'ECMASCRIPT5_STRICT',

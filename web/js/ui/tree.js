@@ -10,7 +10,7 @@ goog.scope(function() {
 
   /** @type {!kivi.CDescriptor<!uibench.state.TreeState, null>} */
   app.ui.tree.d = kivi.CDescriptor.create('Tree');
-  app.ui.tree.d.tag = kivi.CTag.create('div').classes('Tree');
+  app.ui.tree.d.tag = kivi.CTag.create('div').enableCloning().classes('Tree');
 
   /** @param {!kivi.Component<!uibench.state.TreeState, null>} c */
   app.ui.tree.d.update = function(c) {

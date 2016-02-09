@@ -9,7 +9,7 @@ goog.scope(function() {
 
   /** @type {!kivi.CDescriptor<!uibench.state.AnimBoxState, null>} */
   app.ui.anim_box.d = kivi.CDescriptor.create('AnimBox');
-  app.ui.anim_box.d.tag = kivi.CTag.create('div').classes('AnimBox');
+  app.ui.anim_box.d.tag = kivi.CTag.create('div').enableCloning().classes('AnimBox');
 
   /** @param {!kivi.Component<!uibench.state.AnimBoxState, null>} c */
   app.ui.anim_box.d.update = function(c) {

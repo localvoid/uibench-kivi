@@ -13,7 +13,7 @@ goog.scope(function() {
   /** @type {!kivi.CDescriptor<!uibench.state.TableItemState, null>} */
   app.ui.table_row.d = kivi.CDescriptor.create('TableRow');
   app.ui.table_row.d.enableRecycling(100);
-  app.ui.table_row.d.tag = 'tr';
+  app.ui.table_row.d.tag = kivi.CTag.create('tr').enableCloning();
 
   /** @param {!kivi.Component<!uibench.state.TableItemState, null>} c */
   app.ui.table_row.d.update = function(c) {

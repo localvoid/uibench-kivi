@@ -9,7 +9,7 @@ goog.scope(function() {
   /** @type {!kivi.CDescriptor<string, null>} */
   app.ui.table_cell.d = kivi.CDescriptor.create('TableCell');
   app.ui.table_cell.d.enableRecycling(400);
-  app.ui.table_cell.d.tag = kivi.CTag.create('td').classes('TableCell');
+  app.ui.table_cell.d.tag = kivi.CTag.create('td').enableCloning().classes('TableCell');
 
   /** @param {!kivi.Component<string, null>} c */
   app.ui.table_cell.d.init = function(c) {

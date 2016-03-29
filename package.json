@@ -22,15 +22,15 @@
     "uibench"
   ],
   "dependencies": {
-    "kivi": "^0.7.1",
+    "kivi": "^0.8.0",
     "uibench-base": "latest"
   },
   "devDependencies": {
-    "browser-sync": "^2.8.3",
-    "del": "^1.2.1",
-    "google-closure-compiler": "^20160125.0.0",
-    "gulp": "^3.9.0",
+    "browser-sync": "^2.11.1",
+    "del": "^2.2.0",
+    "google-closure-compiler": "^20160208.1.0",
+    "gulp": "^3.9.1",
     "gulp-gh-pages": "^0.5.4",
-    "gulp-if": "^1.2.5"
+    "gulp-if": "^2.0.0"
   }
 }

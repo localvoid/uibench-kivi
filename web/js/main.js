@@ -5,7 +5,7 @@ goog.require('uibench.run');
 goog.require('uibench.state');
 goog.require('app.ui.main');
 
-uibench.init('kivi', '0.7.1');
+uibench.init('kivi', '0.8.0');
 
 document.addEventListener('DOMContentLoaded', function(e) {
   var container = document.querySelector('#App');

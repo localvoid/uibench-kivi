@@ -8,12 +8,19 @@ goog.require('kivi.VNode');
 goog.scope(function() {
   var VNode = kivi.VNode;
 
-  app.ui.table_row.ACTIVE_CLASSES = ['active'];
-
   /** @type {!kivi.CDescriptor<!uibench.state.TableItemState, null>} */
   app.ui.table_row.d = kivi.CDescriptor.create('TableRow');
   app.ui.table_row.d.enableRecycling(100);
-  app.ui.table_row.d.tag = kivi.CTag.create('tr').enableCloning();
+  app.ui.table_row.d.tag = kivi.CTag.create('tr').enableCloning()
+      .update(function(node, a, b) {
+        node = /** @type {!Element} */(node);
+        if (a === void 0) {
+          node.className = b[0] ? 'TableRow active' : 'TableRow';
+          node.setAttribute('data-id', b[1]);
+        } else if (a[0] !== b[0]) {
+          node.className = b[0] ? 'TableRow active' : 'TableRow';
+        }
+      });
 
   /** @param {!kivi.Component<!uibench.state.TableItemState, null>} c */
   app.ui.table_row.d.update = function(c) {
@@ -27,8 +34,7 @@ goog.scope(function() {
 
     c.syncVRoot(
         VNode.createRoot()
-            .classes(data.active ? 'TableRow active' : 'TableRow')
-            .attrs({'data-id': data.id})
+            .updateProps([data.active, data.id])
             .disableChildrenShapeError()
             .children(children));
   };

@@ -22,7 +22,7 @@ goog.scope(function() {
       children.push(VNode.createComponent(app.ui.anim_box.d, item).key(item.id));
     }
 
-    c.syncVRoot(VNode.createRoot().trackByKey().children(children));
+    c.syncVRoot(VNode.createCRoot().trackByKey().children(children));
   };
 
 });

@@ -14,7 +14,7 @@ goog.scope(function() {
 
   /** @param {!kivi.Component<!uibench.state.TreeState, null>} c */
   app.ui.tree.d.update = function(c) {
-    c.syncVRoot(VNode.createRoot().children([
+    c.syncVRoot(VNode.createCRoot().children([
       VNode.createComponent(app.ui.tree_node.d, c.data.root)
     ]));
   };

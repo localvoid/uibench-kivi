@@ -23,6 +23,6 @@ goog.scope(function() {
       children.push(VNode.createComponent(n.container ? app.ui.tree_node.d : app.ui.tree_leaf.d, n).key(n.id));
     }
 
-    c.syncVRoot(VNode.createRoot().trackByKey().children(children));
+    c.syncVRoot(VNode.createCRoot().trackByKey().children(children));
   };
 });

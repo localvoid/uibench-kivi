@@ -26,6 +26,6 @@ goog.scope(function() {
 
   /** @param {!kivi.Component<string, null>} c */
   app.ui.table_cell.d.update = function(c) {
-    c.syncVRoot(VNode.createRoot().children(c.data));
+    c.syncVRoot(VNode.createCRoot().children(c.data));
   };
 });

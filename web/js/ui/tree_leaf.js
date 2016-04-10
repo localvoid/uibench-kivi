@@ -14,6 +14,6 @@ goog.scope(function() {
 
   /** @param {!kivi.Component<!uibench.state.TreeNodeState, null>} c */
   app.ui.tree_leaf.d.update = function(c) {
-    c.syncVRoot(VNode.createRoot().children('' + c.data.id));
+    c.syncVRoot(VNode.createCRoot().children('' + c.data.id));
   };
 });

@@ -28,6 +28,6 @@ goog.scope(function() {
       children = [VNode.createComponent(app.ui.tree.d, data.tree)];
     }
 
-    c.syncVRoot(VNode.createRoot().children(children));
+    c.syncVRoot(VNode.createCRoot().children(children));
   };
 });

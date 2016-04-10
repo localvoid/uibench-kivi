@@ -12,7 +12,7 @@ goog.scope(function() {
   app.ui.table_row.d = kivi.CDescriptor.create('TableRow');
   app.ui.table_row.d.enableRecycling(100);
   app.ui.table_row.d.tag = kivi.CTag.create('tr').enableCloning()
-      .update(function(node, a, b) {
+      .updateHandler(function(node, a, b) {
         node = /** @type {!Element} */(node);
         if (a === void 0) {
           node.className = b[0] ? 'TableRow active' : 'TableRow';
@@ -33,8 +33,7 @@ goog.scope(function() {
     }
 
     c.syncVRoot(
-        VNode.createRoot()
-            .updateProps([data.active, data.id])
+        VNode.createCRoot([data.active, data.id])
             .disableChildrenShapeError()
             .children(children));
   };

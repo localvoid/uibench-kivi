@@ -1,14 +1,14 @@
-import {ComponentDescriptor, VModel, VNode, createRootFromModel, createElement} from 'kivi';
+import {ComponentDescriptor, VModel, VNode, createElement} from 'kivi';
 
 const TableCellRoot = new VModel('td').enableCloning().className('TableCell');
-const TableCell = new ComponentDescriptor<string, any>('TableCell')
-  .rootModel(TableCellRoot)
+const TableCell = new ComponentDescriptor<string, any>()
+  .rootVModel(TableCellRoot)
   .init((c) => {
     (c.element as any).xtag = c;
     (c.element as any).onclick = _handleClick;
   })
   .update((c) => {
-    c.sync(createRootFromModel(TableCellRoot).children(c.data));
+    c.sync(TableCellRoot.createVRoot().children(c.data));
   });
 
 function _handleClick(e: MouseEvent) {
@@ -27,8 +27,8 @@ const TableRowRoot = new VModel<[boolean, number]>('tr').enableCloning()
     }
   });
 
-const TableRow = new ComponentDescriptor<TableItemState, any>('TableRow')
-  .rootModel(TableRowRoot)
+const TableRow = new ComponentDescriptor<TableItemState, any>()
+  .rootVModel(TableRowRoot)
   .update((c) => {
     let data = c.data;
     let props = data.props;
@@ -38,14 +38,14 @@ const TableRow = new ComponentDescriptor<TableItemState, any>('TableRow')
       children.push(TableCell.createVNode(props[i]));
     }
 
-    c.sync(createRootFromModel(TableRowRoot, [data.active, data.id])
+    c.sync(TableRowRoot.createVRoot([data.active, data.id])
         .disableChildrenShapeError()
         .children(children));
   });
 
 const TableRoot = new VModel('table').enableCloning().className('Table');
-export const Table = new ComponentDescriptor<TableState, any>('Table')
-  .rootModel(TableRoot)
+export const Table = new ComponentDescriptor<TableState, any>()
+  .rootVModel(TableRoot)
   .update((c) => {
     let data = c.data;
     let items = data.items;
@@ -56,7 +56,7 @@ export const Table = new ComponentDescriptor<TableState, any>('Table')
       children.push(TableRow.createVNode(item).key(item.id));
     }
 
-    c.sync(createRootFromModel(TableRoot).children([
+    c.sync(TableRoot.createVRoot().children([
       createElement('tbody').trackByKeyChildren(children)
     ]))
   });

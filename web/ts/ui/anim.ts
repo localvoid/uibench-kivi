@@ -1,4 +1,4 @@
-import {ComponentDescriptor, VModel, VNode, createRootFromModel} from 'kivi';
+import {ComponentDescriptor, VModel, VNode} from 'kivi';
 
 const AnimBoxRoot = new VModel<[number, number]>('div').enableCloning().className('AnimBox')
   .updateHandler((node, a, b) => {
@@ -14,15 +14,15 @@ const AnimBoxRoot = new VModel<[number, number]>('div').enableCloning().classNam
     }
   })
 
-const AnimBox = new ComponentDescriptor<AnimBoxState, any>('AnimBox')
-  .rootModel(AnimBoxRoot)
+const AnimBox = new ComponentDescriptor<AnimBoxState, any>()
+  .rootVModel(AnimBoxRoot)
   .update((c) => {
-    c.sync(createRootFromModel(AnimBoxRoot, [c.data.id, c.data.time]));
+    c.sync(AnimBoxRoot.createVRoot([c.data.id, c.data.time]));
   })
 
 const AnimRoot = new VModel('div').enableCloning().className('Anim');
-export const Anim = new ComponentDescriptor<AnimState, any>('Anim')
-  .rootModel(AnimRoot)
+export const Anim = new ComponentDescriptor<AnimState, any>()
+  .rootVModel(AnimRoot)
   .update((c) => {
     let items = c.data.items;
 
@@ -32,5 +32,5 @@ export const Anim = new ComponentDescriptor<AnimState, any>('Anim')
       children.push(AnimBox.createVNode(item).key(item.id));
     }
 
-    c.sync(createRootFromModel(AnimRoot).trackByKeyChildren(children));
+    c.sync(AnimRoot.createVRoot().trackByKeyChildren(children));
   })

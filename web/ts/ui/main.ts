@@ -1,12 +1,12 @@
-import {ComponentDescriptor, VModel, VNode, createRootFromModel} from 'kivi';
+import {ComponentDescriptor, VModel, VNode} from 'kivi';
 import {Table} from './table';
 import {Anim} from './anim';
 import {Tree} from './tree';
 
 const Root = new VModel('div').className('Main');
 
-export const Main = new ComponentDescriptor<AppState, any>('Main')
-  .rootModel(Root)
+export const Main = new ComponentDescriptor<AppState, any>()
+  .rootVModel(Root)
   .update((c) => {
     let data = c.data;
     let location = data && data.location;
@@ -20,5 +20,5 @@ export const Main = new ComponentDescriptor<AppState, any>('Main')
       children = [Tree.createVNode(data.tree)];
     }
 
-    c.sync(createRootFromModel(Root).children(children));
+    c.sync(Root.createVRoot().children(children));
   });

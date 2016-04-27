@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
     (state) => {
       main.setData(state);
       main.update();
-      // main.data = state;
-      // Main._update(main);
     },
     (samples) => {
       document.body.innerHTML = '<pre>' + JSON.stringify(samples, null, ' ') + '</pre>';

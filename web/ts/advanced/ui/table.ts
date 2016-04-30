@@ -1,4 +1,4 @@
-import {ComponentDescriptor, VModel, VNode, createElement} from 'kivi';
+import {ComponentDescriptor, VModel, VNode, createVElement} from 'kivi';
 
 const TableCellRoot = new VModel('td').enableCloning().className('TableCell');
 const TableCell = new ComponentDescriptor<string, any>()
@@ -57,7 +57,7 @@ export const Table = new ComponentDescriptor<TableState, any>()
     }
 
     c.sync(TableRoot.createVRoot().children([
-      createElement('tbody').trackByKeyChildren(children)
+      createVElement('tbody').trackByKeyChildren(children)
     ]))
   });
 

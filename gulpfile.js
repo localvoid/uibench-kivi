@@ -27,10 +27,10 @@ gulp.task('ts', function() {
     .pipe(gulp.dest('build/es6'));
 });
 
-gulp.task('js:bundle', ['ts'], function(done) {
+gulp.task('js:bundle:simple', ['ts'], function(done) {
   return rollup.rollup({
     format: 'es6',
-    entry: 'build/es6/ts/main.js',
+    entry: 'build/es6/ts/simple/main.js',
     plugins: [
       require('rollup-plugin-replace')({
         delimiters: ['<@', '@>'],
@@ -45,24 +45,56 @@ gulp.task('js:bundle', ['ts'], function(done) {
   }).then(function(bundle) {
     return bundle.write({
       format: 'es6',
-      dest: 'build/bundle.es6.js'
+      dest: 'build/simple.es6.js'
     });
   });
 });
 
-gulp.task('js:optimize', ['js:bundle'], function() {
-  var opts = Object.create(CLOSURE_OPTS);
-  opts['js_output_file'] = 'bundle.js';
+gulp.task('js:bundle:advanced', ['ts'], function(done) {
+  return rollup.rollup({
+    format: 'es6',
+    entry: 'build/es6/ts/advanced/main.js',
+    plugins: [
+      require('rollup-plugin-replace')({
+        delimiters: ['<@', '@>'],
+        values: {
+          KIVI_DEBUG: 'DEBUG_DISABLED'
+        }
+      }),
+      require('rollup-plugin-node-resolve')({
+        jsnext: true,
+      })
+    ]
+  }).then(function(bundle) {
+    return bundle.write({
+      format: 'es6',
+      dest: 'build/advanced.es6.js'
+    });
+  });
+});
 
-  return gulp.src(['build/bundle.es6.js'])
+gulp.task('js:optimize:simple', ['js:bundle:simple'], function() {
+  var opts = Object.create(CLOSURE_OPTS);
+  opts['js_output_file'] = 'simple.js';
+
+  return gulp.src(['build/simple.es6.js'])
       .pipe(closureCompiler(opts))
       .pipe(gulp.dest('dist'));
 });
 
-gulp.task('js', ['js:optimize']);
+gulp.task('js:optimize:advanced', ['js:bundle:advanced'], function() {
+  var opts = Object.create(CLOSURE_OPTS);
+  opts['js_output_file'] = 'advanced.js';
+
+  return gulp.src(['build/advanced.es6.js'])
+      .pipe(closureCompiler(opts))
+      .pipe(gulp.dest('dist'));
+});
+
+gulp.task('js', ['js:optimize:simple', 'js:optimize:advanced']);
 
 gulp.task('statics', function() {
-  gulp.src(['./web/index.html'])
+  gulp.src(['./web/*.html'])
     .pipe(gulp.dest('dist'));
 });
 

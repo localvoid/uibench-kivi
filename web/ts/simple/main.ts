@@ -1,7 +1,7 @@
-import {injectComponent} from 'kivi';
 import {Main} from './ui/main';
+import {injectComponent} from 'kivi';
 
-uibench.init('kivi', '0.9.0');
+uibench.init('kivi[simple]', '0.9.0');
 
 document.addEventListener('DOMContentLoaded', (e) => {
   let container = document.querySelector('#App');

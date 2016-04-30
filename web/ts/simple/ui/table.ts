@@ -33,16 +33,10 @@ const TableRow = new ComponentDescriptor<TableItemState, any>()
 export const Table = new ComponentDescriptor<TableState, any>()
   .rootTag('table')
   .update((c) => {
-    const data = c.data;
-    const items = data.items;
-
-    const children: VNode[] = [];
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-      children.push(TableRow.createVNode(item).key(item.id));
-    }
-
     c.sync(createVRoot()
       .className('Table')
-      .children([createVElement('tbody').trackByKeyChildren(children)]))
+      .children([
+        createVElement('tbody')
+          .trackByKeyChildren(c.data.items.map((i) => TableRow.createVNode(i).key(i.id)))
+      ]));
   });

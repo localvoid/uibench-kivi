@@ -11,23 +11,12 @@ const TreeLeaf = new ComponentDescriptor<TreeNodeState, any>()
 const TreeNode = new ComponentDescriptor<TreeNodeState, any>()
   .rootTag('ul')
   .update((c) => {
-    const data = c.data;
-
-    const children: VNode[] = [];
-    for (let i = 0; i < data.children.length; i++) {
-      const n = data.children[i];
-      let c: VNode;
-      if (n.container) {
-        c = TreeNode.createVNode(n);
-      } else {
-        c = TreeLeaf.createVNode(n);
-      }
-      children.push(c.key(n.id))
-    }
-
     c.sync(createVRoot()
       .className('TreeNode')
-      .trackByKeyChildren(children));
+      .trackByKeyChildren(c.data.children.map(
+        (n) => n.container ?
+          TreeNode.createVNode(n).key(n.id) :
+          TreeLeaf.createVNode(n).key(n.id))));
   });
 
 export const Tree = new ComponentDescriptor<TreeState, any>()

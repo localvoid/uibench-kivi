@@ -13,15 +13,7 @@ const AnimBox = new ComponentDescriptor<AnimBoxState, any>()
 
 export const Anim = new ComponentDescriptor<AnimState, any>()
   .update((c) => {
-    const items = c.data.items;
-
-    const children: VNode[] = [];
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-      children.push(AnimBox.createVNode(item).key(item.id));
-    }
-
     c.sync(createVRoot()
       .className('Anim')
-      .trackByKeyChildren(children));
+      .trackByKeyChildren(c.data.items.map((i) => AnimBox.createVNode(i).key(i.id))));
   })

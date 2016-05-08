@@ -1,36 +1,33 @@
-import {ComponentDescriptor, VModel, VNode} from 'kivi';
-
-const AnimBoxRoot = new VModel<[number, number]>('div').enableCloning().className('AnimBox')
-  .updateHandler((node, a, b) => {
-    let t = b[1];
-    let e = node as HTMLElement;
-    if (a === void 0) {
-      e.setAttribute('data-id', '' + b[0]);
-      e.style.cssText = 'border-radius:' + (t % 10) + 'px;' +
-                        'background:rgba(0,0,0,' + (0.5 + ((t % 10) / 10)) + ')';
-    } else if (a[1] !== t) {
-      e.style.cssText = 'border-radius:' + (t % 10) + 'px;' +
-                        'background:rgba(0,0,0,' + (0.5 + ((t % 10) / 10)) + ')';
-    }
-  })
+import {ComponentDescriptor, VModel, VNode} from "kivi";
 
 const AnimBox = new ComponentDescriptor<AnimBoxState, any>()
-  .rootVModel(AnimBoxRoot)
-  .update((c) => {
-    c.sync(AnimBoxRoot.createVRoot([c.data.id, c.data.time]));
-  })
+  .vModel(new VModel<[number, number]>("div").enableCloning().className("AnimBox")
+    .updateHandler((node, a, b) => {
+      const t = b[1];
+      const e = node as HTMLElement;
+      if (a === void 0) {
+        e.setAttribute("data-id", "" + b[0]);
+        e.style.cssText = "border-radius:" + (t % 10) + "px;" +
+          "background:rgba(0,0,0," + (0.5 + ((t % 10) / 10)) + ")";
+      } else if (a[1] !== t) {
+        e.style.cssText = "border-radius:" + (t % 10) + "px;" +
+          "background:rgba(0,0,0," + (0.5 + ((t % 10) / 10)) + ")";
+      }
+    }))
+  .vRender((c, root) => {
+    root.data([c.data.id, c.data.time]);
+  });
 
-const AnimRoot = new VModel('div').enableCloning().className('Anim');
 export const Anim = new ComponentDescriptor<AnimState, any>()
-  .rootVModel(AnimRoot)
-  .update((c) => {
-    let items = c.data.items;
+  .vModel(new VModel("div").enableCloning().className("Anim"))
+  .vRender((c, root) => {
+    const items = c.data.items;
 
-    let children: VNode[] = [];
+    const children: VNode[] = [];
     for (let i = 0; i < items.length; i++) {
-      let item = items[i];
+      const item = items[i];
       children.push(AnimBox.createVNode(item).key(item.id));
     }
 
-    c.sync(AnimRoot.createVRoot().trackByKeyChildren(children));
-  })
+    root.trackByKeyChildren(children);
+  });

@@ -1,11 +1,11 @@
-import {Main} from './ui/main';
-import {injectComponent} from 'kivi';
+import {Main} from "./ui/main";
+import {injectComponent} from "kivi";
 
-uibench.init('kivi[adv]', '0.9.0');
+uibench.init("kivi[adv]", "0.9.0");
 
-document.addEventListener('DOMContentLoaded', (e) => {
-  let container = document.querySelector('#App');
-  let main = injectComponent(Main, null, container);
+document.addEventListener("DOMContentLoaded", (e) => {
+  const container = document.querySelector("#App");
+  let main = injectComponent(Main, container, undefined, true);
 
   uibench.run(
     (state) => {
@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
       main.update();
     },
     (samples) => {
-      document.body.innerHTML = '<pre>' + JSON.stringify(samples, null, ' ') + '</pre>';
-      main = null;
+      document.body.innerHTML = "<pre>" + JSON.stringify(samples, null, " ") + "</pre>";
+      main = undefined;
     }
-  )
+  );
 });

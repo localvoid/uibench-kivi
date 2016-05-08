@@ -1,24 +1,22 @@
-import {ComponentDescriptor, VModel, VNode} from 'kivi';
-import {Table} from './table';
-import {Anim} from './anim';
-import {Tree} from './tree';
-
-const Root = new VModel('div').className('Main');
+import {ComponentDescriptor, VModel, VNode} from "kivi";
+import {Table} from "./table";
+import {Anim} from "./anim";
+import {Tree} from "./tree";
 
 export const Main = new ComponentDescriptor<AppState, any>()
-  .rootVModel(Root)
-  .update((c) => {
-    let data = c.data;
-    let location = data && data.location;
+  .vModel(new VModel("div").className("Main"))
+  .vRender((c, root) => {
+    const data = c.data;
+    const location = data && data.location;
 
-    let children: VNode[] = null;
-    if (location === 'table') {
+    let children: VNode[] = undefined;
+    if (location === "table") {
       children = [Table.createVNode(data.table)];
-    } else if (location === 'anim') {
+    } else if (location === "anim") {
       children = [Anim.createVNode(data.anim)];
-    } else if (location === 'tree') {
+    } else if (location === "tree") {
       children = [Tree.createVNode(data.tree)];
     }
 
-    c.sync(Root.createVRoot().children(children));
+    root.children(children);
   });

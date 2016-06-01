@@ -1,19 +1,19 @@
 import {ComponentDescriptor} from "kivi";
 
-const AnimBox = new ComponentDescriptor<AnimBoxState, any>()
-  .vRender((c, root) => {
-    const t = c.data.time;
+const AnimBox = new ComponentDescriptor<AnimBoxState, void>()
+  .update((c, props) => {
+    const t = props.time;
 
-    root
+    c.vSync(c.createVRoot()
       .className("AnimBox")
-      .attrs({"data-id": "" + c.data.id})
+      .attrs({"data-id": "" + props.id})
       .style("border-radius:" + (t % 10) + "px;" +
-             "background:rgba(0,0,0," + (0.5 + ((t % 10) / 10)) + ")");
+             "background:rgba(0,0,0," + (0.5 + ((t % 10) / 10)) + ")"));
   });
 
-export const Anim = new ComponentDescriptor<AnimState, any>()
-  .vRender((c, root) => {
-    root
+export const Anim = new ComponentDescriptor<AnimState, void>()
+  .update((c, props) => {
+    c.vSync(c.createVRoot()
       .className("Anim")
-      .trackByKeyChildren(c.data.items.map((i) => AnimBox.createVNode(i).key(i.id)));
+      .trackByKeyChildren(props.items.map((i) => AnimBox.createVNode(i).key(i.id))));
   });

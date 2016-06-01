@@ -1,16 +1,15 @@
 import {Main} from "./ui/main";
 import {injectComponent} from "kivi";
 
-uibench.init("kivi[simple]", "0.9.0");
+uibench.init("kivi[simple]", "0.10.0");
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const container = document.querySelector("#App");
-  let main = injectComponent(Main, container, undefined, true);
+  let main = injectComponent(Main, container, null, true);
 
   uibench.run(
     (state) => {
-      main.setData(state);
-      main.update();
+      main.update(state);
     },
     (samples) => {
       document.body.innerHTML = "<pre>" + JSON.stringify(samples, null, " ") + "</pre>";

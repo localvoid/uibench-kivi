@@ -1,31 +1,34 @@
 import {ComponentDescriptor, VModel, VNode, createVElement} from "kivi";
 
-const TableCell = new ComponentDescriptor<string, any>()
-  .vModel(new VModel("td").enableCloning().className("TableCell"))
+const TableCell = new ComponentDescriptor<string, void>()
+  .enableBackRef()
+  .vModel(new VModel("td").enableCloning().className("TableCell"));
+
+const _handleClick = TableCell.createEventHandler((e, c, p) => {
+  console.log("Click", p);
+  e.stopPropagation();
+});
+
+TableCell
   .init((c) => {
-    (c.element as any).xtag = c;
     (c.element as any).onclick = _handleClick;
   })
-  .vRender((c, root) => { root.children(c.data); });
+  .update((c, props) => {
+    c.vSync(c.createVRoot().children(props));
+  });
 
-function _handleClick(e: MouseEvent) {
-  console.log("Click", (e.currentTarget as any).xtag.data);
-  e.stopPropagation();
-}
-
-const TableRow = new ComponentDescriptor<TableItemState, any>()
+const TableRow = new ComponentDescriptor<TableItemState, void>()
   .vModel(new VModel<[boolean, number]>("tr").enableCloning()
     .updateHandler((node, a, b) => {
       const e = node as HTMLElement;
-      if (a === void 0) {
+      if (a === undefined) {
         e.className = b[0] ? "TableRow active" : "TableRow";
         e.setAttribute("data-id", "" + b[1]);
       } else if (a[0] !== b[0]) {
         e.className = b[0] ? "TableRow active" : "TableRow";
       }
     }))
-  .vRender((c, root) => {
-    const data = c.data;
+  .update((c, data) => {
     const props = data.props;
 
     const children = [TableCell.createVNode("#" + data.id)];
@@ -33,15 +36,14 @@ const TableRow = new ComponentDescriptor<TableItemState, any>()
       children.push(TableCell.createVNode(props[i]));
     }
 
-    root.data([data.active, data.id])
+    c.vSync(c.createVRoot().data([data.active, data.id])
       .disableChildrenShapeError()
-      .children(children);
+      .children(children));
   });
 
-export const Table = new ComponentDescriptor<TableState, any>()
+export const Table = new ComponentDescriptor<TableState, void>()
   .vModel(new VModel("table").enableCloning().className("Table"))
-  .vRender((c, root) => {
-    const data = c.data;
+  .update((c, data) => {
     const items = data.items;
 
     const children: VNode[] = [];
@@ -50,8 +52,8 @@ export const Table = new ComponentDescriptor<TableState, any>()
       children.push(TableRow.createVNode(item).key(item.id));
     }
 
-    root.children([
+    c.vSync(c.createVRoot().children([
       createVElement("tbody").trackByKeyChildren(children),
-    ]);
+    ]));
   });
 

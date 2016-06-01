@@ -3,12 +3,11 @@ import {Table} from "./table";
 import {Anim} from "./anim";
 import {Tree} from "./tree";
 
-export const Main = new ComponentDescriptor<AppState, any>()
-  .vRender((c, root) => {
-    const data = c.data;
+export const Main = new ComponentDescriptor<AppState, void>()
+  .update((c, data) => {
     const location = data && data.location;
 
-    let children: VNode[] = undefined;
+    let children: VNode[] = null;
     if (location === "table") {
       children = [Table.createVNode(data.table)];
     } else if (location === "anim") {
@@ -17,5 +16,5 @@ export const Main = new ComponentDescriptor<AppState, any>()
       children = [Tree.createVNode(data.tree)];
     }
 
-    root.className("Main").children(children);
+    c.vSync(c.createVRoot().className("Main").children(children));
   });

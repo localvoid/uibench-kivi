@@ -1,19 +1,20 @@
 import {ComponentDescriptor, createVElement} from "kivi";
 
-const TableCell = new ComponentDescriptor<string, any>()
+const TableCell = new ComponentDescriptor<string, void>()
   .tagName("td")
-  .init((c) => {
+  .init((c, props) => {
     c.element.addEventListener("click", (e) => {
-      console.log("Click", c.data);
+      console.log("Click", props);
       e.stopPropagation();
     });
   })
-  .vRender((c, root) => { root.className("TableCell").children(c.data); });
+  .update((c, props) => {
+    c.vSync(c.createVRoot().className("TableCell").children(props));
+  });
 
-const TableRow = new ComponentDescriptor<TableItemState, any>()
+const TableRow = new ComponentDescriptor<TableItemState, void>()
   .tagName("tr")
-  .vRender((c, root) => {
-    const data = c.data;
+  .update((c, data) => {
     const props = data.props;
 
     const children = [TableCell.createVNode("#" + data.id)];
@@ -21,20 +22,20 @@ const TableRow = new ComponentDescriptor<TableItemState, any>()
       children.push(TableCell.createVNode(props[i]));
     }
 
-    root
+    c.vSync(c.createVRoot()
       .attrs({"data-id": data.id})
       .className(data.active ? "TableRow active" : "TableRow")
       .disableChildrenShapeError()
-      .children(children);
+      .children(children));
   });
 
-export const Table = new ComponentDescriptor<TableState, any>()
+export const Table = new ComponentDescriptor<TableState, void>()
   .tagName("table")
-  .vRender((c, root) => {
-    root
+  .update((c, props) => {
+    c.vSync(c.createVRoot()
       .className("Table")
       .children([
         createVElement("tbody")
-          .trackByKeyChildren(c.data.items.map((i) => TableRow.createVNode(i).key(i.id))),
-      ]);
+          .trackByKeyChildren(props.items.map((i) => TableRow.createVNode(i).key(i.id))),
+      ]));
   });

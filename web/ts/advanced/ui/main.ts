@@ -5,11 +5,10 @@ import {Tree} from "./tree";
 
 export const Main = new ComponentDescriptor<AppState, any>()
   .vModel(new VModel("div").className("Main"))
-  .vRender((c, root) => {
-    const data = c.data;
+  .update((c, data) => {
     const location = data && data.location;
 
-    let children: VNode[] = undefined;
+    let children: VNode[] = null;
     if (location === "table") {
       children = [Table.createVNode(data.table)];
     } else if (location === "anim") {
@@ -18,5 +17,5 @@ export const Main = new ComponentDescriptor<AppState, any>()
       children = [Tree.createVNode(data.tree)];
     }
 
-    root.children(children);
+    c.vSync(c.createVRoot().children(children));
   });

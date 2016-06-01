@@ -1,16 +1,14 @@
 import {ComponentDescriptor, VModel, VNode} from "kivi";
 
-const TreeLeaf = new ComponentDescriptor<TreeNodeState, any>()
+const TreeLeaf = new ComponentDescriptor<TreeNodeState, void>()
   .vModel(new VModel("li").enableCloning().className("TreeLeaf"))
-  .vRender((c, root) => {
-    root.children("" + c.data.id);
+  .update((c, props) => {
+    c.vSync(c.createVRoot().children("" + props.id));
   });
 
-const TreeNode = new ComponentDescriptor<TreeNodeState, any>()
+const TreeNode = new ComponentDescriptor<TreeNodeState, void>()
   .vModel(new VModel("ul").enableCloning().className("TreeNode"))
-  .vRender((c, root) => {
-    const data = c.data;
-
+  .update((c, data) => {
     const children: VNode[] = [];
     for (let i = 0; i < data.children.length; i++) {
       const n = data.children[i];
@@ -18,13 +16,13 @@ const TreeNode = new ComponentDescriptor<TreeNodeState, any>()
       children.push(child.key(n.id));
     }
 
-    root.trackByKeyChildren(children);
+    c.vSync(c.createVRoot().trackByKeyChildren(children));
   });
 
-export const Tree = new ComponentDescriptor<TreeState, any>()
+export const Tree = new ComponentDescriptor<TreeState, void>()
   .vModel(new VModel("div").enableCloning().className("Tree"))
-  .vRender((c, root) => {
-    root.children([
-      TreeNode.createVNode(c.data.root),
-    ]);
+  .update((c, props) => {
+    c.vSync(c.createVRoot().children([
+      TreeNode.createVNode(props.root),
+    ]));
   });

@@ -22,16 +22,16 @@
     "uibench"
   ],
   "dependencies": {
-    "kivi": "^0.9.0"
+    "kivi": "^0.10.0"
   },
   "devDependencies": {
     "del": "^2.2.0",
-    "google-closure-compiler": "^20160315.2.0",
+    "google-closure-compiler": "^20160713.0.0",
     "gulp": "^3.9.1",
-    "gulp-gh-pages": "^0.5.4",
-    "gulp-typescript": "^2.13.0",
-    "rollup-plugin-node-resolve": "^1.5.0",
-    "rollup-plugin-replace": "^1.1.0",
-    "typescript": "^1.9.0-dev.20160516"
+    "gulp-typescript": "^2.13.6",
+    "rollup": "^0.34.1",
+    "rollup-plugin-node-resolve": "^1.7.1",
+    "rollup-plugin-replace": "^1.1.1",
+    "typescript": "^2.0.0"
   }
 }

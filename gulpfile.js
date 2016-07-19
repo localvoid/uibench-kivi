@@ -1,13 +1,10 @@
-'use strict';
+const gulp = require('gulp');
+const del = require('del');
+const ts = require('gulp-typescript');
+const rollup = require('rollup');
+const closureCompiler = require('google-closure-compiler').gulp();
 
-var gulp = require('gulp');
-var del = require('del');
-var ts = require('gulp-typescript');
-var rollup = require('rollup');
-var closureCompiler = require('google-closure-compiler').gulp();
-var ghPages = require('gulp-gh-pages');
-
-var CLOSURE_OPTS = {
+const CLOSURE_OPTS = {
   externs: 'externs/uibench.js',
   compilation_level: 'ADVANCED',
   language_in: 'ECMASCRIPT6_STRICT',
@@ -19,10 +16,10 @@ var CLOSURE_OPTS = {
   warning_level: 'QUIET'
 };
 
-gulp.task('clean', del.bind(null, ['dist', 'build']));
+gulp.task('clean', del.bind(null, ['build']));
 
 gulp.task('ts', function() {
-  return gulp.src('web/**/*.ts')
+  return gulp.src('ts/*.ts')
     .pipe(ts(Object.assign(require('./tsconfig.json').compilerOptions, {
       typescript: require('typescript'),
     })))
@@ -32,7 +29,7 @@ gulp.task('ts', function() {
 gulp.task('js:bundle:simple', ['ts'], function(done) {
   return rollup.rollup({
     format: 'es6',
-    entry: 'build/es6/ts/simple/main.js',
+    entry: 'build/es6/simple.js',
     plugins: [
       require('rollup-plugin-replace')({
         delimiters: ['<@', '@>'],
@@ -46,7 +43,7 @@ gulp.task('js:bundle:simple', ['ts'], function(done) {
     ]
   }).then(function(bundle) {
     return bundle.write({
-      format: 'es6',
+      format: 'es',
       dest: 'build/simple.es6.js'
     });
   });
@@ -55,7 +52,7 @@ gulp.task('js:bundle:simple', ['ts'], function(done) {
 gulp.task('js:bundle:advanced', ['ts'], function(done) {
   return rollup.rollup({
     format: 'es6',
-    entry: 'build/es6/ts/advanced/main.js',
+    entry: 'build/es6/advanced.js',
     plugins: [
       require('rollup-plugin-replace')({
         delimiters: ['<@', '@>'],
@@ -69,40 +66,28 @@ gulp.task('js:bundle:advanced', ['ts'], function(done) {
     ]
   }).then(function(bundle) {
     return bundle.write({
-      format: 'es6',
+      format: 'es',
       dest: 'build/advanced.es6.js'
     });
   });
 });
 
 gulp.task('js:optimize:simple', ['js:bundle:simple'], function() {
-  var opts = Object.create(CLOSURE_OPTS);
-  opts['js_output_file'] = 'simple.js';
-
   return gulp.src(['build/simple.es6.js'])
-      .pipe(closureCompiler(opts))
-      .pipe(gulp.dest('dist'));
+    .pipe(closureCompiler(Object.assign({}, CLOSURE_OPTS, {
+      js_output_file: 'simple.js',
+    })))
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('js:optimize:advanced', ['js:bundle:advanced'], function() {
-  var opts = Object.create(CLOSURE_OPTS);
-  opts['js_output_file'] = 'advanced.js';
-
   return gulp.src(['build/advanced.es6.js'])
-      .pipe(closureCompiler(opts))
-      .pipe(gulp.dest('dist'));
+    .pipe(closureCompiler(Object.assign({}, CLOSURE_OPTS, {
+      js_output_file: 'advanced.js',
+    })))
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('js', ['js:optimize:simple', 'js:optimize:advanced']);
 
-gulp.task('statics', function() {
-  gulp.src(['./web/*.html'])
-    .pipe(gulp.dest('dist'));
-});
-
-gulp.task('deploy', ['default'], function () {
-  return gulp.src('dist/**/*')
-    .pipe(ghPages());
-});
-
-gulp.task('default', ['statics', 'js']);
+gulp.task('default', ['js']);

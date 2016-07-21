@@ -1,8 +1,9 @@
 const gulp = require('gulp');
-const del = require('del');
 const ts = require('gulp-typescript');
 const rollup = require('rollup');
 const closureCompiler = require('google-closure-compiler').gulp();
+
+const VERSION = 'dev';
 
 const CLOSURE_OPTS = {
   externs: 'externs/uibench.js',
@@ -13,20 +14,28 @@ const CLOSURE_OPTS = {
   assume_function_wrapper: true,
   output_wrapper: '(function(){%output%}).call();',
   summary_detail_level: 3,
-  warning_level: 'QUIET'
+  warning_level: 'QUIET',
 };
 
-gulp.task('clean', del.bind(null, ['build']));
+function clean() {
+  const del = require('del');
+  return del('build');
+}
 
-gulp.task('ts', function() {
+function html() {
+  return gulp.src('html/*.html')
+    .pipe(gulp.dest('dist/' + VERSION));
+}
+
+function buildTS() {
   return gulp.src('ts/*.ts')
     .pipe(ts(Object.assign(require('./tsconfig.json').compilerOptions, {
       typescript: require('typescript'),
     })))
     .pipe(gulp.dest('build/es6'));
-});
+}
 
-gulp.task('js:bundle:simple', ['ts'], function(done) {
+function bundleSimple(done) {
   return rollup.rollup({
     format: 'es6',
     entry: 'build/es6/simple.js',
@@ -47,9 +56,9 @@ gulp.task('js:bundle:simple', ['ts'], function(done) {
       dest: 'build/simple.es6.js'
     });
   });
-});
+}
 
-gulp.task('js:bundle:advanced', ['ts'], function(done) {
+function bundleAdvanced(done) {
   return rollup.rollup({
     format: 'es6',
     entry: 'build/es6/advanced.js',
@@ -70,24 +79,36 @@ gulp.task('js:bundle:advanced', ['ts'], function(done) {
       dest: 'build/advanced.es6.js'
     });
   });
-});
+}
 
-gulp.task('js:optimize:simple', ['js:bundle:simple'], function() {
+function compileSimple() {
   return gulp.src(['build/simple.es6.js'])
     .pipe(closureCompiler(Object.assign({}, CLOSURE_OPTS, {
       js_output_file: 'simple.js',
     })))
-    .pipe(gulp.dest('dist'));
-});
+    .pipe(gulp.dest('dist/' + VERSION));
+}
 
-gulp.task('js:optimize:advanced', ['js:bundle:advanced'], function() {
+function compileAdvanced() {
   return gulp.src(['build/advanced.es6.js'])
     .pipe(closureCompiler(Object.assign({}, CLOSURE_OPTS, {
       js_output_file: 'advanced.js',
     })))
-    .pipe(gulp.dest('dist'));
-});
+    .pipe(gulp.dest('dist/' + VERSION));
+}
 
-gulp.task('js', ['js:optimize:simple', 'js:optimize:advanced']);
+function deploy() {
+  const ghPages = require('gulp-gh-pages');
+  return gulp.src('dist/**/*')
+    .pipe(ghPages());
+}
 
-gulp.task('default', ['js']);
+const build = gulp.series(
+  clean,
+  gulp.parallel(html, buildTS),
+  gulp.parallel(bundleSimple, bundleAdvanced),
+  compileSimple,
+  compileAdvanced);
+
+exports.build = build;
+exports.deploy = deploy;

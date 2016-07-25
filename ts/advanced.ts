@@ -133,7 +133,7 @@ const Main = new ComponentDescriptor<AppState, any>()
     c.vSync(c.createVRoot().children(children));
   });
 
-uibench.init("kivi[adv]", "0.10.0");
+uibench.init("kivi[adv]", "0.11.0-alpha.2");
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const container = document.querySelector("#App");

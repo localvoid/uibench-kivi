@@ -25,7 +25,6 @@ const TableRow = new ComponentDescriptor<TableItemState, void>()
     c.vSync(c.createVRoot()
       .attrs({"data-id": data.id})
       .className(data.active ? "TableRow active" : "TableRow")
-      .disableChildrenShapeError()
       .children(children));
   });
 
@@ -96,7 +95,7 @@ const Main = new ComponentDescriptor<AppState, void>()
     c.vSync(c.createVRoot().className("Main").children(children));
   });
 
-uibench.init("kivi[simple]", "0.11.0-alpha.2");
+uibench.init("kivi[simple]", "0.11.0");
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const container = document.querySelector("#App");

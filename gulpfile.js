@@ -81,6 +81,29 @@ function bundleAdvanced(done) {
   });
 }
 
+function bundleNokeys(done) {
+  return rollup.rollup({
+    format: 'es6',
+    entry: 'build/es6/nokeys.js',
+    plugins: [
+      require('rollup-plugin-replace')({
+        delimiters: ['<@', '@>'],
+        values: {
+          KIVI_DEBUG: 'DEBUG_DISABLED'
+        }
+      }),
+      require('rollup-plugin-node-resolve')({
+        jsnext: true,
+      })
+    ]
+  }).then(function(bundle) {
+    return bundle.write({
+      format: 'es',
+      dest: 'build/nokeys.es6.js'
+    });
+  });
+}
+
 function compileSimple() {
   return gulp.src(['build/simple.es6.js'])
     .pipe(closureCompiler(Object.assign({}, CLOSURE_OPTS, {
@@ -97,6 +120,14 @@ function compileAdvanced() {
     .pipe(gulp.dest('dist/' + VERSION));
 }
 
+function compileNokeys() {
+  return gulp.src(['build/nokeys.es6.js'])
+    .pipe(closureCompiler(Object.assign({}, CLOSURE_OPTS, {
+      js_output_file: 'nokeys.js',
+    })))
+    .pipe(gulp.dest('dist/' + VERSION));
+}
+
 function deploy() {
   const ghPages = require('gulp-gh-pages');
   return gulp.src('dist/**/*')
@@ -106,9 +137,10 @@ function deploy() {
 const build = gulp.series(
   clean,
   gulp.parallel(html, buildTS),
-  gulp.parallel(bundleSimple, bundleAdvanced),
+  gulp.parallel(bundleSimple, bundleAdvanced, bundleNokeys),
   compileSimple,
-  compileAdvanced);
+  compileAdvanced,
+  compileNokeys);
 
 exports.build = build;
 exports.deploy = deploy;

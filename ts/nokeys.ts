@@ -46,12 +46,11 @@ const Table = new ComponentDescriptor<TableState, void>()
 
     const children: VNode[] = [];
     for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-      children.push(TableRow.createImmutableVNode(item).key(item.id));
+      children.push(TableRow.createImmutableVNode(items[i]));
     }
 
     c.vSync(c.createVRoot().children([
-      createVElement("tbody").trackByKeyChildren(children),
+      createVElement("tbody").disableChildrenShapeError().children(children),
     ]));
   });
 
@@ -83,11 +82,10 @@ const Anim = new ComponentDescriptor<AnimState, any>()
 
     const children: VNode[] = [];
     for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-      children.push(AnimBox.createImmutableVNode(item).key(item.id));
+      children.push(AnimBox.createImmutableVNode(items[i]));
     }
 
-    c.vSync(c.createVRoot().trackByKeyChildren(children));
+    c.vSync(c.createVRoot().disableChildrenShapeError().children(children));
   });
 
 const TreeLeaf = new ComponentDescriptor<TreeNodeState, void>()
@@ -102,11 +100,10 @@ const TreeNode = new ComponentDescriptor<TreeNodeState, void>()
     const children: VNode[] = [];
     for (let i = 0; i < data.children.length; i++) {
       const n = data.children[i];
-      const child = n.container ? TreeNode.createImmutableVNode(n) : TreeLeaf.createImmutableVNode(n);
-      children.push(child.key(n.id));
+      children.push(n.container ? TreeNode.createImmutableVNode(n) : TreeLeaf.createImmutableVNode(n));
     }
 
-    c.vSync(c.createVRoot().trackByKeyChildren(children));
+    c.vSync(c.createVRoot().disableChildrenShapeError().children(children));
   });
 
 const Tree = new ComponentDescriptor<TreeState, void>()
@@ -134,7 +131,7 @@ const Main = new ComponentDescriptor<AppState, any>()
     c.vSync(c.createVRoot().children(children));
   });
 
-uibench.init("kivi[adv]", "0.11.0");
+uibench.init("kivi[adv-nk]", "0.11.0");
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const container = document.querySelector("#App");

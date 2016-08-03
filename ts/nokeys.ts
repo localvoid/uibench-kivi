@@ -4,7 +4,7 @@ const TableCell = new ComponentDescriptor<string, void>()
   .enableBackRef()
   .tagName(new ElementDescriptor("td").enableCloning().className("TableCell"))
   .update((c, props) => {
-    c.vSync(c.createVRoot().children(props));
+    c.sync(c.createVRoot().children(props));
   });
 
 const TableCellOnClick = TableCell.createDelegatedEventHandler(".TableCell", true, (e, c, p) => {
@@ -34,7 +34,7 @@ const TableRow = new ComponentDescriptor<TableItemState, void>()
       children.push(TableCell.createImmutableVNode(props[i]));
     }
 
-    c.vSync(c.createVRoot()
+    c.sync(c.createVRoot()
       .data(data)
       .children(children));
   });
@@ -49,7 +49,7 @@ const Table = new ComponentDescriptor<TableState, void>()
       children.push(TableRow.createImmutableVNode(items[i]));
     }
 
-    c.vSync(c.createVRoot().children([
+    c.sync(c.createVRoot().children([
       createVElement("tbody").disableChildrenShapeError().children(children),
     ]));
   });
@@ -71,7 +71,7 @@ const AnimBox = new ComponentDescriptor<AnimBoxState, any>()
       }
     }))
   .update((c, props) => {
-    c.vSync(c.createVRoot()
+    c.sync(c.createVRoot()
       .data(props));
   });
 
@@ -85,13 +85,13 @@ const Anim = new ComponentDescriptor<AnimState, any>()
       children.push(AnimBox.createImmutableVNode(items[i]));
     }
 
-    c.vSync(c.createVRoot().disableChildrenShapeError().children(children));
+    c.sync(c.createVRoot().disableChildrenShapeError().children(children));
   });
 
 const TreeLeaf = new ComponentDescriptor<TreeNodeState, void>()
   .tagName(new ElementDescriptor("li").enableCloning().className("TreeLeaf"))
   .update((c, props) => {
-    c.vSync(c.createVRoot().children("" + props.id));
+    c.sync(c.createVRoot().children("" + props.id));
   });
 
 const TreeNode = new ComponentDescriptor<TreeNodeState, void>()
@@ -103,13 +103,13 @@ const TreeNode = new ComponentDescriptor<TreeNodeState, void>()
       children.push(n.container ? TreeNode.createImmutableVNode(n) : TreeLeaf.createImmutableVNode(n));
     }
 
-    c.vSync(c.createVRoot().disableChildrenShapeError().children(children));
+    c.sync(c.createVRoot().disableChildrenShapeError().children(children));
   });
 
 const Tree = new ComponentDescriptor<TreeState, void>()
   .tagName(new ElementDescriptor("div").enableCloning().className("Tree"))
   .update((c, props) => {
-    c.vSync(c.createVRoot().children([
+    c.sync(c.createVRoot().children([
       TreeNode.createImmutableVNode(props.root),
     ]));
   });
@@ -128,10 +128,10 @@ const Main = new ComponentDescriptor<AppState, any>()
       children = [Tree.createImmutableVNode(data.tree)];
     }
 
-    c.vSync(c.createVRoot().children(children));
+    c.sync(c.createVRoot().children(children));
   });
 
-uibench.init("kivi[adv-nk]", "0.11.0");
+uibench.init("kivi[adv-nk]", "1.0.0");
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const container = document.querySelector("#App");

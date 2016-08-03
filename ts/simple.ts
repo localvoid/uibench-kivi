@@ -9,7 +9,7 @@ const TableCell = new ComponentDescriptor<string, void>()
     });
   })
   .update((c, props) => {
-    c.vSync(c.createVRoot().className("TableCell").children(props));
+    c.sync(c.createVRoot().className("TableCell").children(props));
   });
 
 const TableRow = new ComponentDescriptor<TableItemState, void>()
@@ -22,7 +22,7 @@ const TableRow = new ComponentDescriptor<TableItemState, void>()
       children.push(TableCell.createImmutableVNode(props[i]));
     }
 
-    c.vSync(c.createVRoot()
+    c.sync(c.createVRoot()
       .attrs({"data-id": data.id})
       .className(data.active ? "TableRow active" : "TableRow")
       .children(children));
@@ -31,7 +31,7 @@ const TableRow = new ComponentDescriptor<TableItemState, void>()
 const Table = new ComponentDescriptor<TableState, void>()
   .tagName("table")
   .update((c, props) => {
-    c.vSync(c.createVRoot()
+    c.sync(c.createVRoot()
       .className("Table")
       .children([
         createVElement("tbody")
@@ -43,7 +43,7 @@ const AnimBox = new ComponentDescriptor<AnimBoxState, void>()
   .update((c, props) => {
     const t = props.time;
 
-    c.vSync(c.createVRoot()
+    c.sync(c.createVRoot()
       .className("AnimBox")
       .attrs({"data-id": "" + props.id})
       .style("border-radius:" + (t % 10) + "px;" +
@@ -52,7 +52,7 @@ const AnimBox = new ComponentDescriptor<AnimBoxState, void>()
 
 const Anim = new ComponentDescriptor<AnimState, void>()
   .update((c, props) => {
-    c.vSync(c.createVRoot()
+    c.sync(c.createVRoot()
       .className("Anim")
       .trackByKeyChildren(props.items.map((i) => AnimBox.createImmutableVNode(i).key(i.id))));
   });
@@ -60,13 +60,13 @@ const Anim = new ComponentDescriptor<AnimState, void>()
 const TreeLeaf = new ComponentDescriptor<TreeNodeState, void>()
   .tagName("li")
   .update((c, props) => {
-    c.vSync(c.createVRoot().className("TreeLeaf").children("" + props.id));
+    c.sync(c.createVRoot().className("TreeLeaf").children("" + props.id));
   });
 
 const TreeNode = new ComponentDescriptor<TreeNodeState, void>()
   .tagName("ul")
   .update((c, props) => {
-    c.vSync(c.createVRoot()
+    c.sync(c.createVRoot()
       .className("TreeNode")
       .trackByKeyChildren(props.children.map(
         (n) => n.container ?
@@ -76,7 +76,7 @@ const TreeNode = new ComponentDescriptor<TreeNodeState, void>()
 
 const Tree = new ComponentDescriptor<TreeState, void>()
   .update((c, props) => {
-    c.vSync(c.createVRoot().className("Tree").children([TreeNode.createImmutableVNode(props.root)]));
+    c.sync(c.createVRoot().className("Tree").children([TreeNode.createImmutableVNode(props.root)]));
   });
 
 const Main = new ComponentDescriptor<AppState, void>()
@@ -92,10 +92,10 @@ const Main = new ComponentDescriptor<AppState, void>()
       children = [Tree.createImmutableVNode(data.tree)];
     }
 
-    c.vSync(c.createVRoot().className("Main").children(children));
+    c.sync(c.createVRoot().className("Main").children(children));
   });
 
-uibench.init("kivi[simple]", "0.11.0");
+uibench.init("kivi[simple]", "1.0.0");
 
 document.addEventListener("DOMContentLoaded", (e) => {
   const container = document.querySelector("#App");

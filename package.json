@@ -22,7 +22,7 @@
     "uibench"
   ],
   "dependencies": {
-    "kivi": "^0.11.0"
+    "kivi": "^1.0.0-rc0"
   },
   "devDependencies": {
     "del": "^2.2.0",
@@ -30,8 +30,8 @@
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-gh-pages": "^0.5.4",
     "gulp-typescript": "^2.13.6",
-    "rollup": "^0.34.1",
-    "rollup-plugin-node-resolve": "^1.7.1",
+    "rollup": "^0.34.3",
+    "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-replace": "^1.1.1",
     "typescript": "^2.0.0"
   }

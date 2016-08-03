@@ -46,9 +46,7 @@ function bundleSimple(done) {
           KIVI_DEBUG: 'DEBUG_DISABLED'
         }
       }),
-      require('rollup-plugin-node-resolve')({
-        jsnext: true,
-      })
+      require('rollup-plugin-node-resolve')()
     ]
   }).then(function(bundle) {
     return bundle.write({
@@ -69,9 +67,7 @@ function bundleAdvanced(done) {
           KIVI_DEBUG: 'DEBUG_DISABLED'
         }
       }),
-      require('rollup-plugin-node-resolve')({
-        jsnext: true,
-      })
+      require('rollup-plugin-node-resolve')()
     ]
   }).then(function(bundle) {
     return bundle.write({
@@ -92,9 +88,7 @@ function bundleNokeys(done) {
           KIVI_DEBUG: 'DEBUG_DISABLED'
         }
       }),
-      require('rollup-plugin-node-resolve')({
-        jsnext: true,
-      })
+      require('rollup-plugin-node-resolve')()
     ]
   }).then(function(bundle) {
     return bundle.write({

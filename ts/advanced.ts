@@ -29,9 +29,11 @@ const TableRow = new ComponentDescriptor<TableItemState, void>()
   .update((c, data) => {
     const props = data.props;
 
-    const children = [TableCell.createVNode("#" + data.id)];
+    const children = new Array<VNode>(props.length + 1);
+
+    children[0] = TableCell.createVNode("#" + data.id);
     for (let i = 0; i < props.length; i++) {
-      children.push(TableCell.createImmutableVNode(props[i]));
+      children[i + 1] = TableCell.createImmutableVNode(props[i]);
     }
 
     c.sync(c.createVRoot()
@@ -44,10 +46,10 @@ const Table = new ComponentDescriptor<TableState, void>()
   .update((c, data) => {
     const items = data.items;
 
-    const children: VNode[] = [];
+    const children = new Array<VNode>(items.length);
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      children.push(TableRow.createImmutableVNode(item).key(item.id));
+      children[i] = TableRow.createImmutableVNode(item).key(item.id);
     }
 
     c.sync(c.createVRoot().children([
@@ -81,10 +83,10 @@ const Anim = new ComponentDescriptor<AnimState, any>()
   .update((c, props) => {
     const items = props.items;
 
-    const children: VNode[] = [];
+    const children: VNode[] = new Array<VNode>(items.length);
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      children.push(AnimBox.createImmutableVNode(item).key(item.id));
+      children[i] = AnimBox.createImmutableVNode(item).key(item.id);
     }
 
     c.sync(c.createVRoot().trackByKeyChildren(children));
@@ -99,11 +101,11 @@ const TreeLeaf = new ComponentDescriptor<TreeNodeState, void>()
 const TreeNode = new ComponentDescriptor<TreeNodeState, void>()
   .tagName(new ElementDescriptor("ul").enableCloning().className("TreeNode"))
   .update((c, data) => {
-    const children: VNode[] = [];
+    const children = new Array<VNode>(data.children.length);
     for (let i = 0; i < data.children.length; i++) {
       const n = data.children[i];
       const child = n.container ? TreeNode.createImmutableVNode(n) : TreeLeaf.createImmutableVNode(n);
-      children.push(child.key(n.id));
+      children[i] = child.key(n.id);
     }
 
     c.sync(c.createVRoot().trackByKeyChildren(children));

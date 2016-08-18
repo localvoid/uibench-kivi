@@ -3,7 +3,7 @@ const ts = require('gulp-typescript');
 const rollup = require('rollup');
 const closureCompiler = require('google-closure-compiler').gulp();
 
-const VERSION = 'dev';
+const VERSION = '1.0';
 
 const CLOSURE_OPTS = {
   externs: 'externs/uibench.js',
@@ -24,7 +24,7 @@ function clean() {
 
 function html() {
   return gulp.src('html/*.html')
-    .pipe(gulp.dest('dist/' + VERSION));
+    .pipe(gulp.dest('docs/' + VERSION));
 }
 
 function buildTS() {
@@ -103,7 +103,7 @@ function compileSimple() {
     .pipe(closureCompiler(Object.assign({}, CLOSURE_OPTS, {
       js_output_file: 'simple.js',
     })))
-    .pipe(gulp.dest('dist/' + VERSION));
+    .pipe(gulp.dest('docs/' + VERSION));
 }
 
 function compileAdvanced() {
@@ -111,7 +111,7 @@ function compileAdvanced() {
     .pipe(closureCompiler(Object.assign({}, CLOSURE_OPTS, {
       js_output_file: 'advanced.js',
     })))
-    .pipe(gulp.dest('dist/' + VERSION));
+    .pipe(gulp.dest('docs/' + VERSION));
 }
 
 function compileNokeys() {
@@ -119,13 +119,7 @@ function compileNokeys() {
     .pipe(closureCompiler(Object.assign({}, CLOSURE_OPTS, {
       js_output_file: 'nokeys.js',
     })))
-    .pipe(gulp.dest('dist/' + VERSION));
-}
-
-function deploy() {
-  const ghPages = require('gulp-gh-pages');
-  return gulp.src('dist/**/*')
-    .pipe(ghPages());
+    .pipe(gulp.dest('docs/' + VERSION));
 }
 
 const build = gulp.series(
@@ -137,4 +131,3 @@ const build = gulp.series(
   compileNokeys);
 
 exports.build = build;
-exports.deploy = deploy;

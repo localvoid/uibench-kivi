@@ -3,7 +3,7 @@ const ts = require('gulp-typescript');
 const rollup = require('rollup');
 const closureCompiler = require('google-closure-compiler').gulp();
 
-const VERSION = '1.0';
+const VERSION = 'dev';
 
 const CLOSURE_OPTS = {
   externs: 'externs/uibench.js',

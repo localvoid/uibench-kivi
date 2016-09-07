@@ -4,7 +4,7 @@ const TableCell = new ComponentDescriptor<string, void>()
   .enableBackRef()
   .tagName(new ElementDescriptor("td").enableCloning().className("TableCell"))
   .update((c, props) => {
-    c.sync(c.createVRoot().children(props));
+    c.sync(c.createVRoot().child(props));
   });
 
 const TableCellOnClick = TableCell.createDelegatedEventHandler(".TableCell", true, (e, c, p) => {
@@ -95,7 +95,7 @@ const Anim = new ComponentDescriptor<AnimState, any>()
 const TreeLeaf = new ComponentDescriptor<TreeNodeState, void>()
   .tagName(new ElementDescriptor("li").enableCloning().className("TreeLeaf"))
   .update((c, props) => {
-    c.sync(c.createVRoot().children("" + props.id));
+    c.sync(c.createVRoot().child("" + props.id));
   });
 
 const TreeNode = new ComponentDescriptor<TreeNodeState, void>()

@@ -9,7 +9,7 @@ const TableCell = new ComponentDescriptor<string, void>()
     });
   })
   .update((c, props) => {
-    c.sync(c.createVRoot().className("TableCell").children(props));
+    c.sync(c.createVRoot().className("TableCell").child(props));
   });
 
 const TableRow = new ComponentDescriptor<TableItemState, void>()
@@ -60,7 +60,7 @@ const Anim = new ComponentDescriptor<AnimState, void>()
 const TreeLeaf = new ComponentDescriptor<TreeNodeState, void>()
   .tagName("li")
   .update((c, props) => {
-    c.sync(c.createVRoot().className("TreeLeaf").children("" + props.id));
+    c.sync(c.createVRoot().className("TreeLeaf").child("" + props.id));
   });
 
 const TreeNode = new ComponentDescriptor<TreeNodeState, void>()

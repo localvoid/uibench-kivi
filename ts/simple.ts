@@ -1,21 +1,21 @@
-import {injectComponent, ComponentDescriptor, createVElement, VNode} from "kivi";
+import { injectComponent, ComponentDescriptor, createVElement, VNode } from "kivi";
 
-const TableCell = new ComponentDescriptor<string, void>()
+const TableCell = new ComponentDescriptor<string, (e: MouseEvent) => void>()
   .tagName("td")
   .init((c, props) => {
-    c.element.addEventListener("click", (e) => {
+    c.state = (e) => {
       console.log("Click", props);
       e.stopPropagation();
-    });
+    };
   })
-  .update((c, props) => {
-    c.sync(c.createVRoot().className("TableCell").child(props));
+  .update((c, props, state) => {
+    c.sync(c.createVRoot().props({ onclick: state }).className("TableCell").child(props));
   });
 
 const TableRow = new ComponentDescriptor<TableItemState, void>()
   .tagName("tr")
   .update((c, data) => {
-    const props = data.props;
+    const { props } = data;
 
     const children = [TableCell.createVNode("#" + data.id)];
     for (let i = 0; i < props.length; i++) {
@@ -23,7 +23,7 @@ const TableRow = new ComponentDescriptor<TableItemState, void>()
     }
 
     c.sync(c.createVRoot()
-      .attrs({"data-id": data.id})
+      .attrs({ "data-id": data.id })
       .className(data.active ? "TableRow active" : "TableRow")
       .children(children));
   });
@@ -31,27 +31,40 @@ const TableRow = new ComponentDescriptor<TableItemState, void>()
 const Table = new ComponentDescriptor<TableState, void>()
   .tagName("table")
   .update((c, props) => {
+    const { items } = props;
+
+    const children = new Array(items.length);
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      children[i] = TableRow.createImmutableVNode(item).key(item.id);
+    }
+
     c.sync(c.createVRoot()
       .className("Table")
-      .children([
-        createVElement("tbody")
-          .trackByKeyChildren(props.items.map((i) => TableRow.createImmutableVNode(i).key(i.id))),
-      ]));
+      .child(createVElement("tbody")
+        .trackByKeyChildren(children)));
   });
 
 const AnimBox = new ComponentDescriptor<AnimBoxState, void>()
   .update((c, props) => {
-    const t = props.time;
+    const { time, id } = props;
 
     c.sync(c.createVRoot()
       .className("AnimBox")
-      .attrs({"data-id": "" + props.id})
-      .style("border-radius:" + (t % 10) + "px;" +
-             "background:rgba(0,0,0," + (0.5 + ((t % 10) / 10)) + ")"));
+      .attrs({ "data-id": "" + id })
+      .style("border-radius:" + (time % 10) + "px;" + "background:rgba(0,0,0," + (0.5 + ((time % 10) / 10)) + ")"));
   });
 
 const Anim = new ComponentDescriptor<AnimState, void>()
   .update((c, props) => {
+    const { items } = props;
+
+    const children = new Array(items.length);
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      children[i] = AnimBox.createImmutableVNode(item).key(item.id);
+    }
+
     c.sync(c.createVRoot()
       .className("Anim")
       .trackByKeyChildren(props.items.map((i) => AnimBox.createImmutableVNode(i).key(i.id))));
@@ -66,33 +79,40 @@ const TreeLeaf = new ComponentDescriptor<TreeNodeState, void>()
 const TreeNode = new ComponentDescriptor<TreeNodeState, void>()
   .tagName("ul")
   .update((c, props) => {
+    const items = props.children;
+
+    const children = new Array(items.length);
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      children[i] = item.container ?
+        TreeNode.createImmutableVNode(item).key(item.id) :
+        TreeLeaf.createImmutableVNode(item).key(item.id);
+    }
+
     c.sync(c.createVRoot()
       .className("TreeNode")
-      .trackByKeyChildren(props.children.map(
-        (n) => n.container ?
-          TreeNode.createImmutableVNode(n).key(n.id) :
-          TreeLeaf.createImmutableVNode(n).key(n.id))));
+      .trackByKeyChildren(children));
   });
 
 const Tree = new ComponentDescriptor<TreeState, void>()
   .update((c, props) => {
-    c.sync(c.createVRoot().className("Tree").children([TreeNode.createImmutableVNode(props.root)]));
+    c.sync(c.createVRoot().className("Tree").child(TreeNode.createImmutableVNode(props.root)));
   });
 
 const Main = new ComponentDescriptor<AppState, void>()
   .update((c, data) => {
     const location = data && data.location;
 
-    let children: VNode[] = null;
+    let children: VNode = null;
     if (location === "table") {
-      children = [Table.createImmutableVNode(data.table)];
+      children = Table.createImmutableVNode(data.table);
     } else if (location === "anim") {
-      children = [Anim.createImmutableVNode(data.anim)];
+      children = Anim.createImmutableVNode(data.anim);
     } else if (location === "tree") {
-      children = [Tree.createImmutableVNode(data.tree)];
+      children = Tree.createImmutableVNode(data.tree);
     }
 
-    c.sync(c.createVRoot().className("Main").children(children));
+    c.sync(c.createVRoot().className("Main").child(children));
   });
 
 uibench.init("kivi[simple]", "1.0.0");

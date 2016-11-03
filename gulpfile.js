@@ -12,9 +12,10 @@ const CLOSURE_OPTS = {
   language_out: 'ECMASCRIPT5_STRICT',
   use_types_for_optimization: true,
   assume_function_wrapper: true,
-  output_wrapper: '(function(){%output%}).call();',
+  output_wrapper: '(function(){%output%}).call(window);',
   summary_detail_level: 3,
   warning_level: 'QUIET',
+  rewrite_polyfills: false,
 };
 
 function clean() {
@@ -48,7 +49,7 @@ function bundleSimple(done) {
       }),
       require('rollup-plugin-node-resolve')()
     ]
-  }).then(function(bundle) {
+  }).then(function (bundle) {
     return bundle.write({
       format: 'es',
       dest: 'build/simple.es6.js'
@@ -69,7 +70,7 @@ function bundleAdvanced(done) {
       }),
       require('rollup-plugin-node-resolve')()
     ]
-  }).then(function(bundle) {
+  }).then(function (bundle) {
     return bundle.write({
       format: 'es',
       dest: 'build/advanced.es6.js'
@@ -90,7 +91,7 @@ function bundleNokeys(done) {
       }),
       require('rollup-plugin-node-resolve')()
     ]
-  }).then(function(bundle) {
+  }).then(function (bundle) {
     return bundle.write({
       format: 'es',
       dest: 'build/nokeys.es6.js'

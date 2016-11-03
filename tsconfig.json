@@ -6,11 +6,8 @@
     "removeComments": false,
     "moduleResolution": "node"
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "typings/main",
-    "typings/main.d.ts"
+  "include": [
+    "ts/*.ts"
   ],
   "compileOnSave": false
 }
